@@ -1,29 +1,30 @@
 <!doctype html>
-<html lang="en-us">
+<html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>js-dos api</title>
-    <style type="text/css">
-        .dosbox-container { width: 800px; height: 600px; }
+    <title>Dardos</title>
+    <script src="js-dos.js"></script>
+    <style>
+        #jsdos, .dosbox-container {
+            width: 800px;
+            height: 600px;
+        }
     </style>
 </head>
-<body>
-    <div id="dosbox"></div>
-    <br/>
-    <button onclick="dosbox.requestFullScreen();">Make fullscreen</button>
 
-    <script type="text/javascript" src="js-dos-api.js"></script>
-    <script type="text/javascript">
-        var dosbox = new Dosbox({
-            id: "dosbox",
-            onload: function (dosbox) {
-                dosbox.run("DARDOS.zip", "./DARDOS.EXE");
-            },
-            onrun: function (dosbox, app) {
-                console.log("App '" + app + "' is runned");
-            }
+<body>
+    <canvas id="jsdos"></canvas>   
+    <script>
+    Dos(document.getElementById("jsdos"), {
+        autolock: true
+    }).ready(function (fs, main) {
+        fs.extract("DARDOS.zip").then(function () {
+            main(["-c", "dardos.exe"]).then(function (ci) {              
+                window.ci = ci;
+            });
         });
+    });
     </script>
 </body>
+
 </html>
